@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Weather Now</title>
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet"/>
+</head>
+
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="logo" aria-hidden="true">
+        <img src="images/logo.svg" alt="logo" />
+      </div>
+
+      <div class="units-container" role="group" aria-label="units">
+        <button class="units-button" id="unitsButton">
+          <img src="images/icon-units.svg" alt="Settings" />
+          <span>Units</span>
+            <img class="chevron" src="images/icon-dropdown.svg" alt="dropdown" />
+          </svg>
+        </button>
+
+        <div class="units-dropdown" id="unitsDropdown">
+          <div class="dropdown-section">
+            <div class="section-title">Temperature</div>
+            <div class="dropdown-option selected" data-type="temp" data-value="celsius">
+              <span>Celsius (°C)</span>
+              <img class="check-icon" src="images/icon-checkmark.svg" alt="check" />
+            </div>
+            <div class="dropdown-option" data-type="temp" data-value="fahrenheit">
+              <span>Fahrenheit (°F)</span>
+                <img class="check-icon" src="images/icon-checkmark.svg" alt="check" />            
+            </div>
+          </div>
+
+          <div class="dropdown-divider"></div>
+
+          <div class="dropdown-section">
+            <div class="section-title">Wind Speed</div>
+            <div class="dropdown-option selected" data-type="wind" data-value="kmh">
+              <span>km/h</span>
+              <img class="check-icon" src="images/icon-checkmark.svg" alt="check" />
+            </div>
+            <div class="dropdown-option" data-type="wind" data-value="mph">
+              <span>mph</span>
+              <img class="check-icon" src="images/icon-checkmark.svg" alt="check" />
+            </div>
+          </div>
+
+          <div class="dropdown-divider"></div>
+
+          <div class="dropdown-section">
+            <div class="section-title">Precipitation</div>
+            <div class="dropdown-option selected" data-type="precip" data-value="mm">
+              <span>Millimeters (mm)</span>
+              <img class="check-icon" src="images/icon-checkmark.svg" alt="check" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="text-container">
+      <h1>How's the Sky looking today?</h1>
+    </div>
+
+    <div class="searchbar">
+      <form id="searchForm">
+        <div class="search-input-wrapper">
+            <img class="search-icon" src="images/icon-search.svg" alt="icon" />
+          <input type="text" placeholder="Search city..." id="location" />
+          <div id="suggestions" class="suggestions-dropdown" role="listbox" aria-label="City suggestions"></div>
+        </div>
+        <button type="submit" class="search-btn">Search</button>
+      </form>
+    </div>
+      
+      <!-- Loading Screen -->
+    <div class="loading-screen hidden" id="loadingScreen">
+      <img class="spinner" src="images/icon-loading.svg" alt="load" />
+      </svg>
+      <p>Loading...</p>
+    </div> 
+    
+    
+    <div class="error-message" id="errorMessage" role="alert">
+      <img src="images/icon-error.svg" alt="error" />
+      </svg>
+      <p>Invalid location. Please enter a valid city name and try again.</p>
+    </div> 
+      
+    <div class="main-grid hidden" id="weatherContent">
+      <div>
+        <div class="weather-card" id="weatherCard" role="region" aria-label="Current weather">
+          <div class="current-weather">
+            <h2 class="city" id="locationName"></h2>
+            <p class="date" id="date"></p>  
+          </div>
+          <div class="temp" id="temperature">
+            <div class="weather-icon" id="weatherIcon"></div>
+            <div class="temperature">
+              <span class="degree" data-celsius=""></span>
+              <p style="margin:0;color:var(--muted);font-weight:600;"></p>
+            </div>
+          </div>
+        </div>
+
+        <div class="details" aria-label="weather details">
+          
+          <div class="feels">
+            <p>Feels Like</p>
+            <span id="feelsLike" data-celsius=""></span>
+          </div>
+          
+          <div class="humidity">
+            <p>Humidity</p>
+            <span id="humidity"></span>
+          </div>
+          
+          <div class="wind">
+            <p>Wind</p>
+            <span id="wind" data-mps=""></span>
+          </div>
+          
+          <div class="precip">
+            <p>Precipitation</p>
+            <span id="precipitation" data-mm=""></span>
+          </div>
+        </div>
+        
+        <section class="daily-forecast" aria-label="Daily forecast">
+          <h3 class="view" style="width:100%;">Daily forecast</h3>
+          <div class="view">
+            <p>Mon</p>
+            <div style="display:flex;justify-content:center;gap:6px;align-items:center;">
+              <div class="icon"></div>
+              <span class="degree" data-celsius=""></span>
+            </div>
+          </div>
+          
+          <div class="view">
+            <p>Tue</p>
+            <div style="display:flex;justify-content:center;gap:6px;align-items:center;">
+              <div class="icon"></div>
+              <span class="degree" data-celsius=""></span>
+            </div>
+          </div>
+          
+          <div class="view">
+            <p>Wed</p>
+            <div style="display:flex;justify-content:center;gap:6px;align-items:center;">
+              <div class="icon"></div>
+              <span class="degree" data-celsius=""></span>
+            </div>
+          </div>
+          
+          <div class="view">
+            <p>Thu</p>
+            <div style="display:flex;justify-content:center;gap:6px;align-items:center;">
+              <div class="icon"></div>
+              <span class="degree" data-celsius=""></span>
+            </div>
+          </div>
+          
+          <div class="view">
+            <p>Fri</p>
+            <div style="display:flex;justify-content:center;gap:6px;align-items:center;">
+              <div class="icon"></div>
+              <span class="degree" data-celsius=""></span>
+            </div>
+          </div>
+          
+          <div class="view">
+            <p>Sat</p>
+            <div style="display:flex;justify-content:center;gap:6px;align-items:center;">
+              <div class="icon"></div>
+              <span class="degree" data-celsius=""></span>
+            </div>
+          </div>
+          
+          <div class="view">
+            <p>Sun</p>
+            <div style="display:flex;justify-content:center;gap:6px;align-items:center;">
+              <div class="icon"></div>
+              <span class="degree" data-celsius=""></span>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <aside class="hourly-forecast view" aria-label="Hourly forecast">
+        <h3>
+          Hourly forecast
+          <select name="day" aria-label="Select day">
+            <option>Mon</option>
+            <option>Tues</option>
+            <option>Wed</option>
+            <option>Thurs</option>
+            <option>Fri</option>
+            <option>Sat</option>
+            <option>Sun</option>
+          </select>
+        </h3>
+        <div class="hours view" aria-hidden="false">
+          <div>
+            <span class="time"></span>
+            <div class="icon"></div>
+            <span class="degree" data-celsius=""></span>
+          </div>
+          <div>
+            <span class="time"></span>
+            <div class="icon"></div>
+            <span class="degree" data-celsius=""></span>
+          </div>
+          <div>
+            <span class="time"></span>
+            <div class="icon"></div>
+            <span class="degree" data-celsius=""></span>
+          </div>
+          <div>
+            <span class="time"></span>
+            <div class="icon"></div>
+            <span class="degree" data-celsius=""></span>
+          </div>
+          <div>
+            <span class="time"></span>
+            <div class="icon"></div>
+            <span class="degree" data-celsius=""></span>
+          </div>
+          <div>
+            <span class="time"></span>
+            <div class="icon"></div>
+            <span class="degree" data-celsius=""></span>
+          </div>
+          <div>
+            <span class="time"></span>
+            <div class="icon"></div>
+            <span class="degree" data-celsius=""></span>
+          </div>
+          <div>
+            <span class="time"></span>
+            <div class="icon"></div>
+            <span class="degree" data-celsius=""></span>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+</body>
+</html>
+  
