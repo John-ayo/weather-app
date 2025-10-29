@@ -290,7 +290,7 @@ function displaySuggestions(features) {
   features.forEach((feature, index) => {
     const item = document.createElement("div");
     item.className = "suggestion-item";
-    item.textContent = feature.properties.formatted; // e.g., "Berlin, Germany"
+    item.textContent = feature.properties.formatted; // e.g., "London, UK"
     item.setAttribute("role", "option");
     item.addEventListener("click", () => selectSuggestion(feature.properties));
     dropdown.appendChild(item);
@@ -407,13 +407,13 @@ async function searchWeather(location = null) {
       
       let selectedFeature = geoData.features[0]; // default fallback
       
-      if (location.toLowerCase().includes("berlin")) {
-        const berlinGermany = geoData.features.find(f => 
-          f.properties.city?.toLowerCase() === "berlin" &&
-          f.properties.country?.toLowerCase() === "germany"
+      if (location.toLowerCase().includes("london")) {
+        const londonUk = geoData.features.find(f => 
+          f.properties.city?.toLowerCase() === "london" &&
+          f.properties.country?.toLowerCase() === "uk"
         );
-        if (berlinGermany) {
-          selectedFeature = berlinGermany;
+        if londonUk) {
+          selectedFeature = londonUk;
         }
       }
       
