@@ -412,7 +412,7 @@ async function searchWeather(location = null) {
           f.properties.city?.toLowerCase() === "london" &&
           f.properties.country?.toLowerCase() === "uk"
         );
-        if londonUk) {
+        if (londonUk) {
           selectedFeature = londonUk;
         }
       }
